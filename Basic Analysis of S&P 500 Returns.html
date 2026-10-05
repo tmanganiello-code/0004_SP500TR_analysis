@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Basic Analysis of S&amp;P 500 Returns</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f6f7f9;--fg:#14213d;--mut:#5b6678;--card:#fff;--pos:#1b7f5c;--neg:#c2412d;--acc:#1d4e89}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1624;--fg:#e8edf5;--mut:#9aa7ba;--card:#18223a;--pos:#3fc795;--neg:#ef7a66;--acc:#6aa7e8}}
+:root[data-theme="dark"]{--bg:#0f1624;--fg:#e8edf5;--mut:#9aa7ba;--card:#18223a;--pos:#3fc795;--neg:#ef7a66;--acc:#6aa7e8}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--fg);font-family:Georgia,"Times New Roman",serif;overflow:hidden}
+.slide{display:none;height:100%;box-sizing:border-box;padding:6vh 7vw 11vh;flex-direction:column;justify-content:center;max-width:1100px;margin:0 auto}
+.slide.on{display:flex}
+h1{font-size:clamp(30px,5.5vw,58px);margin:0 0 .4em;line-height:1.08}
+h2{font-size:clamp(24px,3.6vw,38px);margin:0 0 .6em}
+p,li{font-size:clamp(16px,2vw,21px);line-height:1.55;max-width:62ch}
+.sub{color:var(--mut)}
+code{font-family:Consolas,monospace;background:var(--card);padding:2px 8px;border-radius:4px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:1em 0}
+.stat{background:var(--card);padding:16px;border-left:4px solid var(--acc)}
+.stat b{display:block;font-size:clamp(26px,4vw,40px)}
+.stat span{color:var(--mut);font-size:15px}
+svg{width:100%;height:auto;max-height:52vh}
+.nav{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);display:flex;justify-content:center;align-items:center;gap:18px;color:var(--mut)}
+button{font:inherit;background:var(--card);color:var(--fg);border:1px solid var(--mut);padding:8px 18px;border-radius:6px;cursor:pointer}
+button:focus-visible{outline:3px solid var(--acc)}
+</style></head><body>
+
+<section class="slide on">
+<h1>Basic Analysis of S&amp;P 500 Returns</h1>
+<p class="sub">Weekly returns, January 1993 – September 2026</p>
+<p>Tommaso Manganiello</p>
+</section>
+
+<section class="slide">
+<h2>The data</h2>
+<ul>
+<li><b>Index:</b> S&amp;P 500 Total Return (<code>SP500TR</code>), the S&amp;P 500 with dividends reinvested.</li>
+<li><b>Adjusted prices:</b> the <code>Adj Close</code> column accounts for dividends, so returns reflect what an investor actually earns.</li>
+<li><b>Timeframe:</b> weekly. 1,757 prices from 25 Jan 1993 to 21 Sep 2026 give 1,756 weekly returns.</li>
+<li><b>Method:</b> return = percentage change of Adj Close from one week to the next.</li>
+</ul>
+</section>
+
+<section class="slide">
+<h2>Weekly return statistics</h2>
+<div class="stats">
+<div class="stat"><b>0.225%</b><span>Mean</span></div>
+<div class="stat"><b>0.346%</b><span>Median</span></div>
+<div class="stat"><b>2.356%</b><span>Standard deviation (volatility)</span></div>
+<div class="stat"><b>0.056%</b><span>Standard error of the mean</span></div>
+</div>
+<svg viewBox="0 0 700 110" role="img" aria-label="95% interval of weekly returns">
+<line x1="40" y1="55" x2="660" y2="55" stroke="var(--mut)"/>
+<!-- scale: -6% at 40, +6% at 660 => 51.67px per 1% ; 0 at 350 -->
+<rect x="110" y="38" width="480" height="34" fill="var(--acc)" opacity=".25"/>
+<line x1="110" y1="30" x2="110" y2="80" stroke="var(--acc)" stroke-width="3"/>
+<line x1="590" y1="30" x2="590" y2="80" stroke="var(--acc)" stroke-width="3"/>
+<line x1="350" y1="25" x2="350" y2="85" stroke="var(--mut)" stroke-dasharray="3"/>
+<circle cx="361.6" cy="55" r="7" fill="var(--pos)"/>
+<text x="110" y="100" text-anchor="middle" fill="var(--fg)" font-size="14">-4.64%</text>
+<text x="590" y="100" text-anchor="middle" fill="var(--fg)" font-size="14">+4.74%</text>
+<text x="350" y="18" text-anchor="middle" fill="var(--mut)" font-size="13">0%</text>
+</svg>
+<p class="sub">Shaded: 95% of weekly returns fall between -4.64% and +4.74% (2.5th–97.5th percentile). The mean/volatility ratio (weekly Sharpe, no risk-free rate) is 0.096.</p>
+</section>
+
+<section class="slide">
+<h2>Annual returns since 1993</h2>
+<svg id="ch" viewBox="0 0 760 330" role="img" aria-label="Bar chart of annual S&amp;P 500 total returns"></svg>
+<p class="sub">Calendar-year change in Adj Close. 1993 starts from 25 Jan; 2026 runs to 21 Sep.</p>
+</section>
+
+<section class="slide">
+<h2>Takeaways</h2>
+<ul>
+<li>The typical week gains about 0.2–0.3%, but a single week can swing from -19.8% to +13.3%.</li>
+<li>The median is above the mean: a few very bad weeks pull the average down (negative skew).</li>
+<li>Of 34 calendar years, 28 were positive; the worst was 2008 (-32.6%) and the best 1995 (+38.0%).</li>
+<li>Losing streaks: 2000–2002, 2008 and 2022.</li>
+</ul>
+<p class="sub">Project: Basic Analysis of S&amp;P 500 Returns — Tommaso Manganiello</p>
+</section>
+
+<div class="nav"><button id="p">Previous</button><span id="n"></span><button id="x">Next</button></div>
+
+<script>
+var A={1993:8.7,1994:0.4,1995:38.0,1996:24.6,1997:31.9,1998:28.0,1999:20.4,2000:-9.7,2001:-9.2,2002:-21.1,2003:23.7,2004:10.7,2005:4.8,2006:15.8,2007:1.6,2008:-32.6,2009:22.7,2010:15.1,2011:1.9,2012:19.2,2013:27.5,2014:14.5,2015:1.3,2016:12.0,2017:21.7,2018:-3.6,2019:30.2,2020:18.1,2021:28.7,2022:-18.2,2023:26.2,2024:26.1,2025:16.8,2026:13.2};
+(function(){var y=Object.keys(A),w=760/y.length,zero=250,k=200/40,s='<line x1="0" x2="760" y1="'+zero+'" y2="'+zero+'" stroke="var(--mut)"/>';
+y.forEach(function(t,i){var v=A[t],h=Math.abs(v)*k,x=i*w+3,top=v>=0?zero-h:zero;
+s+='<rect x="'+x+'" y="'+top+'" width="'+(w-6)+'" height="'+h+'" fill="'+(v>=0?'var(--pos)':'var(--neg)')+'"><title>'+t+': '+v+'%</title></rect>';
+if(i%3==0)s+='<text x="'+(x+(w-6)/2)+'" y="'+(zero+(v<0?-v*k+14:14)+ (v<0?0:0))+'" text-anchor="middle" font-size="11" fill="var(--mut)">'+t+'</text>';});
+s+='<text x="4" y="22" font-size="12" fill="var(--mut)">Best: +38.0% (1995)   Worst: -32.6% (2008)</text>';
+document.getElementById('ch').innerHTML=s;})();
+var S=document.querySelectorAll('.slide'),i=0;
+function go(d){i=Math.max(0,Math.min(S.length-1,i+d));S.forEach(function(e,j){e.classList.toggle('on',j==i)});document.getElementById('n').textContent=(i+1)+' / '+S.length}
+document.getElementById('p').onclick=function(){go(-1)};document.getElementById('x').onclick=function(){go(1)};
+document.addEventListener('keydown',function(e){if(e.key=='ArrowRight')go(1);if(e.key=='ArrowLeft')go(-1)});go(0);
+</script></body></html>
