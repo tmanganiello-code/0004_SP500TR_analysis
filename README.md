@@ -1,71 +1,72 @@
 # 0004_SP500TR_analysis
-# S&P 500 Historical Return & Volatility Analysis
-🔗 **Live Demo / Web Report:** [S&P 500 Analysis Webpage](https://tmanganiello-code.github.io/0004_SP500TR_analysis/)
-A simple Python-based exploratory data analysis of the S&P 500 index using weekly adjusted closing prices from 1993 to present.
+# 📈 S&P 500 Total Return (SP500TR) Weekly Analysis
 
-## 📌 Project Overview
-This project analyzes the historical performance, statistical distribution, and annual yields of the S&P 500 index. The objective is to calculate basic return metrics, quantify weekly volatility, estimate confidence intervals for average returns, and review year-over-year performance.
+A quantitative financial analysis of historical S&P 500 weekly adjusted data (SP500TR), evaluating distribution statistics, return performance, volatility metrics, and empirical risk bounds[cite: 1].
 
 ---
 
-## 📊 Dataset & Cleaning
-- **Source Data**: `sp500_weekly_adjusted.csv` (contains weekly Open, High, Low, Close, Adjusted Close, and Volume).
-- **Data Preprocessing**:
-  - Parsed dates and sorted entries in chronological order.
-  - Imputed missing records using Forward Fill (`ffill`) to prevent lookahead bias.
-  - Calculated percentage changes on Adjusted Close prices to account for dividends and stock splits.
+## 📌 Overview
+
+This project processes historical weekly adjusted price data for the S&P 500 from **January 1993** to **September 2026**[cite: 1]. The analysis applies time-series data cleaning techniques, calculates percentage returns, and evaluates descriptive and risk-adjusted return metrics[cite: 1].
 
 ---
 
-## 📈 Key Statistical Findings
+## 📊 Key Results & Statistical Highlights
 
-### Weekly Returns Performance
-- **Mean Weekly Return**: ~`0.23%`
-- **Median Weekly Return**: ~`0.35%`
-- **Standard Deviation (Volatility)**: ~`2.36%`
-- **Standard Error of the Mean**: ~`0.056%`
-- **95% Confidence Interval for Mean Return**: `[0.12%, 0.34%]`
+Based on the weekly adjusted price data spanning **1993-01-25** to **2026-09-21**[cite: 1]:
 
-> **Interpretation**: Over the analyzed timeframe, the S&P 500 generated an average positive weekly return of ~0.23%. We can be 95% confident that the true population mean weekly return lies between 0.12% and 0.34%.
-
----
-
-## 📅 Annual Performance Summary
-Annual returns are computed by resampling adjusted prices to year-end periods (`YE`) and measuring year-over-year percentage variations.
-
-- **Historical Range**: 1993 – Present
-- **Highest Annual Gain**: `+38.05%` (1995)
-- **Largest Annual Loss**: `-32.63%` (2008)
+* **Analysis Period**: January 25, 1993 – September 21, 2026[cite: 1]
+* **Adjusted Close Range**: $\$24.05$ to $\$767.18$[cite: 1]
+* **Mean Weekly Return**: `0.225%`[cite: 1]
+* **Median Weekly Return**: `0.346%`[cite: 1]
+* **Weekly Volatility (Standard Deviation)**: `2.356%`[cite: 1]
+* **95% Empirical Interval ($2.5\%$ to $97.5\%$ Quantiles)**: `[-4.642%, +4.735%]`[cite: 1]
+* **Weekly Sharpe Ratio Baseline**: `0.096`[cite: 1]
 
 ---
 
-## 🛠️ Repository Structure
+## 🛠 Pipeline & Methodology
 
-```text
-├── sp500_analysis.ipynb       # Jupyter Notebook containing code and analyses
-├── sp500_weekly_adjusted.csv  # Raw weekly historical dataset
-└── README.md                  # Project documentation
-```
+The analysis follows a structured data analysis workflow[cite: 1]:
+
+1. **Data Collection**:
+   * Import raw historical weekly adjusted prices (`sp500_weekly_adjusted.csv`)[cite: 1].
+2. **Data Cleaning & Preprocessing**:
+   * Forward-fill missing values (`ffill()`)[cite: 1].
+   * Convert timestamp values into standard `datetime` format[cite: 1].
+   * Filter relevant columns (`Date`, `Adj Close`) and sort chronologically[cite: 1].
+3. **Data Analysis & Modeling**:
+   * Calculate percentage weekly returns: $\text{Return}_t = \left(\frac{\text{Price}_t - \text{Price}_{t-1}}{\text{Price}_{t-1}}\right) \times 100$[cite: 1].
+   * Derive central tendency (Mean, Median) and volatility metrics (Standard Deviation)[cite: 1].
+   * Extract actual $2.5\%$ and $97.5\%$ quantiles for non-parametric risk boundaries[cite: 1].
+   * Compute standard Sharpe Ratio baseline[cite: 1].
+4. **Data Storytelling**:
+   * Output clear statistical metrics summarizing risk vs. return behavior[cite: 1].
 
 ---
 
-## 🚀 How to Run
+## 🚀 Roadmap & Planned Enhancements
+
+* **Annualized Metrics**: Compound Annual Growth Rate (CAGR) and Annualized Volatility[cite: 1].
+* **Max Drawdown**: Historical peak-to-trough decline analysis[cite: 1].
+* **Yearly Aggregations**: Year-by-year return breakdown and distribution comparison[cite: 1].
+
+---
+
+## 💻 Tech Stack & Requirements
+
+* **Language**: Python 3.x[cite: 1]
+* **Libraries**: `pandas`[cite: 1]
+* **Environment**: Jupyter Notebook[cite: 1]
+
+---
+
+## 🏃 Quickstart
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/sp500-return-analysis.git
-   cd sp500-return-analysis
-   ```
-
-2. **Install dependencies**:
-   ```bash
-   pip install pandas
-   ```
-
-3. **Launch Jupyter Notebook**:
-   ```bash
-   jupyter notebook sp500_analysis.ipynb
-   ```
+   git clone [https://github.com/tmanganiello-code/0004_SP500TR_analysis.git](https://github.com/tmanganiello-code/0004_SP500TR_analysis.git)
+   cd 0004_SP500TR_analysis
 
 ---
 
